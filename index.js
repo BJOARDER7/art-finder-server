@@ -43,12 +43,47 @@ async function run() {
       res.send(result);
      })
 
-    app.post('/craft', async(req, res) => {
+     app.post('/craft', async(req, res) => {
       const newCraft = req.body;
       console.log(newCraft);
       const result = await craftCollection.insertOne(newCraft);
       res.send(result);
     })
+
+     app.put('/craft/:id', async(req, res) => {
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)}
+      const options = { upsert: true };
+      const updatedCraft = req.body;
+
+      const craft = {
+          $set: {
+              item: updatedCraft.item, 
+              subcategory: updatedCraft.subcategory, 
+              description: updatedCraft.description, 
+              photo: updatedCraft.photo, 
+              price: updatedCraft.price, 
+              rating: updatedCraft.rating, 
+              status: updatedCraft.status,
+              time: updatedCraft.time,
+              customization: updatedCraft.customization,
+              name: updatedCraft.name,
+              email: updatedCraft.email
+          }
+      }
+
+      const result = await craftCollection.updateOne(filter, craft, options);
+      res.send(result);
+  })
+
+     app.delete('/craft/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await craftCollection.deleteOne(query);
+      res.send(result);
+    })
+
+
 
 
     // Send a ping to confirm a successful connection
