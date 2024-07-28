@@ -29,6 +29,7 @@ async function run() {
     await client.connect();
 
     const craftCollection = client.db("craftDB").collection("craft");
+    const categoryCollection = client.db("craftDB").collection("subcategory");
 
     app.get('/craft', async(req, res) => {
       const cursor = craftCollection.find();
@@ -82,6 +83,9 @@ async function run() {
       const result = await craftCollection.deleteOne(query);
       res.send(result);
     })
+
+
+    // subcategory collection 
 
 
 
