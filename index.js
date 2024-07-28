@@ -87,6 +87,12 @@ async function run() {
 
     // subcategory collection 
 
+    app.get('/subcategory', async(req, res) => {
+      const cursor = categoryCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
 
 
 
